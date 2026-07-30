@@ -1,59 +1,26 @@
-const dotenv=require("dotenv");
-const express= require("express");
-const { JsonWebTokenError } = require("jsonwebtoken");
-const app=express();
+const dotenv = require("dotenv");
+dotenv.config();
+
+const express = require("express");
+const jwt = require("jsonwebtoken");   
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
+
+const userRoutes = require("./Router/user");
+const courseRoutes = require("./Router/course");
+const adminRoutes = require("./Router/admin");
+
+const app = express();
 app.use(express.json());
-const jwt=require("JsonWebToken");
-const bcrypt=require("bcrypt");
 
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/course", courseRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
+async function main() {
+    await mongoose.connect(process.env.MONGO_URI);
+    app.listen(3000);
+    console.log("Server is running on port 3000");
+}
 
-
-// auth middleware for User
-
-
-
-// USER ROUTES
-
-app.post("/register",function(req,res){
-    const name =req.body.name
-    const email=req.body.email
-    const password=req.body.password
-    const hashedPassword=bcrypt.hash(password,(10))
-
-})
-
-
-
-app.post("/signUp",function(req,res){
-    const email=req.body.email
-    const password=req.body.password
-    const validPassword=bcrypt.compare(password)
-})
-
-app.get("/purchase",function(req,res){})
-
-app.get("/courses",function(req,res){})
-
-
-
-//auth middleware for Admin
-
-
-// ADMIN ROUTES
-
-app.post("/signUp/admin",function(req,res){})
-
-app.post("/register/admin",function(req,res){})
-
-app.put("create/admin",function(req,res){})
-
-app.delete("delete/admin",function(req,res){})
-
-app.post("addCourse/admin",function(req,res){})
-
-
-
-
-
-app.listen(3000);
+main();
