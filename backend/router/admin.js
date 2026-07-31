@@ -1,9 +1,10 @@
 const {Router} =require("express")
-const{adminModel}= require("../db")
+const{adminModel, courseModel}= require("../db")
 const bcrypt=require("bcrypt")
 const zod=require("zod")
 const jwt=require("jsonwebtoken")
-const JWT_SECRET=process.env.JWT_SECRET
+const adminMiddleware = require("../middleware/authAdmin")
+const JWT_ADMIN_PASSWORD=process.env.JWT_ADMIN_PASSWORD
 
 const router = Router();
 router.post("/signUp",async function(req,res){
@@ -11,15 +12,16 @@ router.post("/signUp",async function(req,res){
     const lastName= req.body.lastname
     const email= req.body.email
     const password= req.body.password
-    const UserExist=await adminModel.findOne({email})
-    if(email){
-        res.json({error:"User Exist with this email"})
+    const userExist=await adminModel.findOne({email})
+    if(!userExist){
+        const hashedPassword=await bcrypt.hash(password,10);
+        const newUser=await adminModel({firstName:firstName, lastName:lastName, password:hashedPassword, email:email})
+        newUser.save()
+        res.json({message:"Signup successful"})
     }
     
     else{
-        const hashedPassword=await bcrypt.hash(password);
-        const newUser=await adminModel({firstName:firstName, lastName:lastName, password:hashedPassword, email:email})
-        newUser.save()
+        return res.json({error:"User already exists"})
     }
 })
 
@@ -36,16 +38,27 @@ router.post("/signin",async function(req,res){
             res.json("incorrect password")
         }
         else{
-            const token=jwt.sign({id:UserExist._id},JWT_SECRET,{expiresIn:"7d"})
+            const token=jwt.sign({id:UserExist._id},JWT_ADMIN_PASSWORD,{expiresIn:"7d"})
             res.json({token:token})
         }
     }
 })
 
 
-router.post("/course",function(req,res){})
+router.post("/course",adminMiddleware,async function(req,res){
+    const adminId=req.adminId
+    const {title,description,price,imageUrl} = req.body
+    const newCourse= await courseModel({title:"title",description:"description",price:"price",imageUrl:"imageUrl",creatorId:adminId})
+    newCourse.save();
+    res.json({message:"Course Created",
+        courseID:newCourse._id
+    })
+})
 
-router.put("/course",function(req,res){})
+router.put("/course",adminMiddleware,async function(req,res){
+    const admin=req.adminId
+    const courseID=
+})
 
 router.get("/course/bulk",function(req,res){})
 

@@ -33,7 +33,7 @@ router.post("/signup", async function (req, res) {
 router.post("/signin", async function (req, res) {
     const { email, firstName, lastName, password } = req.body
 
-    const userExit = await userModel.find({ email, password })
+    const userExit = await userModel.findOne({ email})
     if (!userExit) {
         return res.json({ message: "User Not exist" })
     }
@@ -50,7 +50,7 @@ router.post("/signin", async function (req, res) {
 })
 
 
-router.get("/Courses", auth, async function (req, res) {
+router.get("/Courses",async function (req, res) {
 
 })
 
