@@ -33,7 +33,7 @@ router.post("/signin",async function(req,res){
         res.json({error:"User not found"});
     }
     else{
-        const passwordValid=bcrypt.compare(password,UserExist.password)
+        const passwordValid=await bcrypt.compare(password,UserExist.password)
         if(!passwordValid){
             res.json("incorrect password")
         }
@@ -48,19 +48,39 @@ router.post("/signin",async function(req,res){
 router.post("/course",adminMiddleware,async function(req,res){
     const adminId=req.adminId
     const {title,description,price,imageUrl} = req.body
-    const newCourse= await courseModel({title:"title",description:"description",price:"price",imageUrl:"imageUrl",creatorId:adminId})
+    const newCourse= await courseModel({title:title,description:description,price:price,imageUrl:imageUrl,creatorId:adminId})
     newCourse.save();
     res.json({message:"Course Created",
-        courseID:newCourse._id
+        courseId:newCourse._id
     })
 })
 
 router.put("/course",adminMiddleware,async function(req,res){
-    const admin=req.adminId
-    const courseID=
+    const adminId = req.adminId;
+    const { title, description, price, imageUrl, courseId } = req.body;
+    
+    try{
+        const updatedCourse=await courseModel.findOneAndUpdate(
+            {_id:courseId,creatorId:adminId},
+            { title, description, price, imageUrl },
+            {new:true}
+        );
+        if(!updatedCourse){
+            return res.status(404).json({error:"Course not found"});
+        }
+        res.json({message:"course Updated",
+            courseId:updatedCourse._id
+        })
+    }
+    catch(error){
+        res.status(500).json({error:"Internal server Error"})
+    }
 })
 
-router.get("/course/bulk",function(req,res){})
-
+router.get("/course/bulk",adminMiddleware,async function(req,res){
+    const adminId=req.adminId
+    const courses=await courseModel.findOne(adminId)
+    res.json({courses})
+})
 
 module.exports=router;
