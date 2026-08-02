@@ -4,7 +4,7 @@ const JWT_ADMIN_PASSWORD=process.env.JWT_ADMIN_PASSWORD
 function adminMiddleware(req,res,next){
     const token=req.headers.token;
     if(!token){
-        return res.satus(401).json({error:"Token not available"})
+        return req.status(401).json({error:"Token not available"})
     }
     try{
     const validToken=jwt.verify(token,JWT_ADMIN_PASSWORD)

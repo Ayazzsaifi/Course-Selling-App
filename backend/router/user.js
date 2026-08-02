@@ -39,7 +39,7 @@ router.post("/signin", async function (req, res) {
         return res.json({ message: "User Not exist" })
     }
     else {
-        const validPassword = bcrypt.compare(password,userExit.password)
+        const validPassword = await bcrypt.compare(password,userExit.password)
         if (!validPassword) {
             return res.json({ error: "Incorrect password" })
         }
@@ -54,7 +54,7 @@ router.post("/signin", async function (req, res) {
 router.get("/purchase", UserMiddleware, async function (req, res) {
     const userId= req.userID;
 
-    const ownCourses = await purchaseModel.find({ userId:req.userID });
+    const ownCourses = await purchaseModel.find({ userId: req.userID }).populate("courseId");
     res.json({ ownCourses });
 });
 

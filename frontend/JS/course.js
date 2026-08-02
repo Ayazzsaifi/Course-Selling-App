@@ -9,8 +9,16 @@ async function getAllCourses() {
         <h2>${course.title}</h2>
         <p>${course.description}</p>
         <p>${course.price}</p>
-        <br>
+        <button onclick="buyCourse('${course._id}')">Buy</button>
+        
         </div>`
     })
 }
 getAllCourses();
+
+async function buyCourse(courseId){
+    const response = await axios.post("http://localhost:3000/api/v1/course/purchase",{courseId:courseId},{headers:{token:localStorage.getItem("userToken")}}) 
+    if(response.data.message){
+    alert("Course purchased!")
+}
+}
