@@ -10,7 +10,7 @@ addCourseBtn.addEventListener("click", async function () {
     const priceValue = price.value
     const imageUrlValue = imageUrl.value
     const descriptionValue = description.value
-    const response = await axios.post("http://localhost:3000/api/v1/admin/course",
+    const response = await axios.post("https://course-selling-app-w6b8.onrender.com/api/v1/admin/course",
         { title: titleValue, price: priceValue, description: descriptionValue, imageUrl: imageUrlValue },
         { headers: { token: localStorage.getItem("adminToken") } })
     if (response.data.message) {
@@ -19,7 +19,7 @@ addCourseBtn.addEventListener("click", async function () {
 })
 
 async function fetchCourses() {
-    const response = await axios.get("http://localhost:3000/api/v1/admin/course/bulk", { headers: { token: localStorage.getItem("adminToken") } })
+    const response = await axios.get("https://course-selling-app-w6b8.onrender.com/api/v1/admin/course/bulk", { headers: { token: localStorage.getItem("adminToken") } })
 
     courseList.innerHTML = "";
     response.data.courses.forEach(function (course) {

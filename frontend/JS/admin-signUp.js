@@ -9,7 +9,7 @@ submitBtn.addEventListener("click",async function(){
     const lastNameValue=lastName.value;
     const emailValue=email.value;
     const passwordValue=password.value
-    const response=await axios.post("http://localhost:3000/api/v1/admin/signUp",{firstName:firstNameValue,lastName:lastNameValue,password:passwordValue,email:emailValue})
+    const response=await axios.post("https://course-selling-app-w6b8.onrender.com/api/v1/admin/signup",{firstName:firstNameValue,lastName:lastNameValue,password:passwordValue,email:emailValue})
 
     if(response.data.message){
     window.location.href="admin-signIn.html"}

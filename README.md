@@ -5,7 +5,7 @@ A full-stack web application where admins can create and manage courses, and use
 ## Live Demo
 
 - **Frontend:** `coming soon`
-- **Backend API:** `coming soon`
+- **Backend API:** `https://course-selling-app-w6b8.onrender.com/api/v1/admin/course/bulk`
 
 ---
 

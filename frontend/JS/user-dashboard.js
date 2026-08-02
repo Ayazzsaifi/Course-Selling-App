@@ -1,7 +1,7 @@
 const courseList = document.getElementById("course-list");
 
 async function ownCourses(){
-    const response = await axios.get("http://localhost:3000/api/v1/user/purchase",{headers:{token:localStorage.getItem("userToken")}})
+    const response = await axios.get("https://course-selling-app-w6b8.onrender.com/api/v1/user/purchase",{headers:{token:localStorage.getItem("userToken")}})
     courseList.innerHTML=""
     response.data.ownCourses.forEach(function(course){
         courseList.innerHTML+=`<div>
