@@ -13,6 +13,15 @@ const adminRoutes = require("./Router/admin");
 const app = express();
 app.use(express.json());
 
+app.use((err, req, res, next) => {
+    if (err.type === "entity.parse.failed") {
+        return res.status(400).json({ message: "Invalid or empty JSON body" });
+    }
+    next(err);
+});
+
+
+
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/admin", adminRoutes);

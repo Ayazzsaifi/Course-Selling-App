@@ -78,8 +78,8 @@ router.put("/course",adminMiddleware,async function(req,res){
 })
 
 router.get("/course/bulk",adminMiddleware,async function(req,res){
-    const adminId=req.adminId
-    const courses=await courseModel.findOne(adminId)
+    const adminId=req.userId
+    const courses=await courseModel.findOne({CretorId:adminId})
     res.json({courses})
 })
 

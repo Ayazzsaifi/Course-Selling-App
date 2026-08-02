@@ -32,6 +32,8 @@ const purchaseSchema=new Schema({
     userId:{type:mongoose.Schema.Types.ObjectId,ref:'user'}
 })
 
+// will add one more table called course table where i will add video 1 and assigment content
+
 
 const userModel=mongoose.model('user',userSchema)
 const adminModel=mongoose.model('admin',adminSchema)

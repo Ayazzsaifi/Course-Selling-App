@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { userModel } = require("../db")
+const { userModel, courseModel } = require("../db")
 const { purchaseModel } = require("../db");
 const jwt = require("jsonwebtoken");
-const JWT_USER_PASSWORD = process.env.JWT_USER_PASSWORD; 
-const auth = require("../middleware/authUser")
+const JWT_USER_PASSWORD = process.env.JWT_USER_PASSWORD;
+const auth = require("../middleware/authUser");
+const UserMiddleware = require("../middleware/authUser");
 
 router.post("/signup", async function (req, res) {
     const { firstName, lastName, email, password } = req.body
@@ -33,7 +34,7 @@ router.post("/signup", async function (req, res) {
 router.post("/signin", async function (req, res) {
     const { email, firstName, lastName, password } = req.body
 
-    const userExit = await userModel.findOne({ email})
+    const userExit = await userModel.findOne({ email })
     if (!userExit) {
         return res.json({ message: "User Not exist" })
     }
@@ -50,13 +51,12 @@ router.post("/signin", async function (req, res) {
 })
 
 
-router.get("/Courses",async function (req, res) {
+router.get("/purchase", UserMiddleware, async function (req, res) {
+    const userId= req.userID;
 
-})
+    const ownCourses = await purchaseModel.findOne({ userId:req.userID });
+    res.json({ ownCourses });
+});
 
-
-router.post("/purchase", function (req, res) { })
-
-router.get("/preview", function (req, res) { })
 
 module.exports = router;
