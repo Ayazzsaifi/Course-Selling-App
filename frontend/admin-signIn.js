@@ -8,6 +8,6 @@ submitBtn.addEventListener("click", async function () {
     const response = await axios.post("http://localhost:3000/api/v1/admin/signIn",{email:emailValue , password:passwordValue})
 
     if(response.data.token){
-    localStorage.setItem("admintoken",response.data.token)
+    localStorage.setItem("adminToken",response.data.token)
     window.location.href="admin-dashboard.html"}
 }) 
