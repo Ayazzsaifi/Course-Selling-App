@@ -8,8 +8,8 @@ const JWT_ADMIN_PASSWORD=process.env.JWT_ADMIN_PASSWORD
 
 const router = Router();
 router.post("/signUp",async function(req,res){
-    const firstName= req.body.firstname
-    const lastName= req.body.lastname
+    const firstName= req.body.firstName
+    const lastName= req.body.lastName
     const email= req.body.email
     const password= req.body.password
     const userExist=await adminModel.findOne({email})
@@ -78,8 +78,8 @@ router.put("/course",adminMiddleware,async function(req,res){
 })
 
 router.get("/course/bulk",adminMiddleware,async function(req,res){
-    const adminId=req.userId
-    const courses=await courseModel.findOne({CretorId:adminId})
+    const adminId=req.adminId
+    const courses=await courseModel.find({creatorId:adminId})
     res.json({courses})
 })
 

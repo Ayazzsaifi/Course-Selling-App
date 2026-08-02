@@ -24,7 +24,7 @@ router.post("/signup", async function (req, res) {
         res.json({ message: "Youre SignUp" })
     }
     catch (error) {
-        error: "signUp failed"
+        res.json({error: "signUp failed"})
     }
 
 })
@@ -39,7 +39,7 @@ router.post("/signin", async function (req, res) {
         return res.json({ message: "User Not exist" })
     }
     else {
-        const validPassword = bcrypt.compare(password)
+        const validPassword = bcrypt.compare(password,userExit.password)
         if (!validPassword) {
             return res.json({ error: "Incorrect password" })
         }
@@ -54,7 +54,7 @@ router.post("/signin", async function (req, res) {
 router.get("/purchase", UserMiddleware, async function (req, res) {
     const userId= req.userID;
 
-    const ownCourses = await purchaseModel.findOne({ userId:req.userID });
+    const ownCourses = await purchaseModel.find({ userId:req.userID });
     res.json({ ownCourses });
 });
 

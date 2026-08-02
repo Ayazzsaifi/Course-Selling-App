@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>if(!localStorage.getItem("adminToken")){
+        window.location.href="admin-signIn.html"
+    }</script>
+
+</head>
+
+<body>
+    <div id="form">
+        <h1 id="Add-course">Add Course</h1>
+        <input type="text" id="dashboard-title" placeholder="Title">
+        <input type="text" id="dashboard-description" placeholder="description">
+        <input type="text" id="dashboard-price" placeholder="price">
+        <input type="text" id="dashboard-imageUrl" placeholder="imageUrl">
+
+        <button id="add-course" type="submit">Add Course</button>
+    </div>
+    <div id="course-list"></div>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

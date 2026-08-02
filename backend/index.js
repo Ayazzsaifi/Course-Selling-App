@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const express = require("express");
-const jwt = require("jsonwebtoken");   
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
@@ -12,6 +12,10 @@ const adminRoutes = require("./Router/admin");
 
 const app = express();
 app.use(express.json());
+
+const cors = require("cors");
+app.use(cors());
+
 
 app.use((err, req, res, next) => {
     if (err.type === "entity.parse.failed") {
@@ -28,8 +32,9 @@ app.use("/api/v1/admin", adminRoutes);
 
 async function main() {
     await mongoose.connect(process.env.MONGO_URI);
-    app.listen(3000);
-    console.log("Server is running on port 3000");
+    const port = process.env.PORT || 3000;
+    app.listen(port);
+    console.log(`Server is running on port ${port}`);
 }
 
 main();
