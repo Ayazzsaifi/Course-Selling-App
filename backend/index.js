@@ -6,9 +6,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
-const userRoutes = require("./Router/user");
-const courseRoutes = require("./Router/course");
-const adminRoutes = require("./Router/admin");
+const userRoutes = require("./router/user");
+const courseRoutes = require("./router/course");
+const adminRoutes = require("./router/admin");
 
 const app = express();
 app.use(express.json());
