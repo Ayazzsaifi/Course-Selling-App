@@ -352,3 +352,34 @@ button {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 3px; }
+
+.navbar-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.navbar-links a {
+  font-size: 13px;
+  color: var(--soft);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  transition: background 0.12s;
+}
+
+.navbar-links a:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.navbar-links a.btn-signup {
+  background: var(--text);
+  color: #fff;
+  font-weight: 500;
+}
+
+.navbar-links a.btn-signup:hover {
+  background: #2d2d2d;
+  color: #fff;
+}
